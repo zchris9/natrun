@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>natrun</title>
+  <style>
+    /* The natrun shell deliberately ships almost no CSS. Every visual choice
+       — colors, fonts, background, layout — belongs to the model. The only
+       rule here makes #natrun-root the full canvas; the model paints it.
+       The loader styles below are scoped to the initial #natrun-boot element
+       and vanish as soon as the model's first response replaces it. */
+    html, body { margin: 0; padding: 0; }
+    #natrun-root { min-height: 100vh; box-sizing: border-box; }
+    #natrun-boot {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px;
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #555; background: #fafafa;
+    }
+    #natrun-boot .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid #ddd; border-top-color: #555; border-radius: 50%;
+      animation: natrun-spin 0.8s linear infinite;
+    }
+    @keyframes natrun-spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="natrun-root"><div id="natrun-boot"><div class="spinner"></div><div>loading…</div></div>{{INITIAL_HTML}}</div>
+  <script type="application/json" id="natrun-context">{{INITIAL_CONTEXT}}</script>
+  <script>{{LOADER_JS}}</script>
+</body>
+</html>
