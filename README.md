@@ -25,9 +25,9 @@ Natrun treats the LM as a general programming substrate: a program is a hidden s
 
 The program advances on every iteration, which is triggered immediately when an input $i_n$ is available, according to the following rules, with $\Vert$ being the concatenation operator.
 
-$$c_n \;=\; (c_{n-1} \,\Vert\, i_{n}) \,\Vert\, M(S \,\Vert\, c_{n-1} \,\Vert\, i_n)$$
+$$c_n = (c_{n-1} \Vert i_n) \Vert M(S \Vert c_{n-1} \Vert i_n)$$
 
-$$o_n \;=\; P(c_n)$$
+$$o_n = P(c_n)$$
 
 $o_n$ is then handed to whatever consumes the output.
 
@@ -35,9 +35,9 @@ $o_n$ is then handed to whatever consumes the output.
 
 The initial carried context $c_0$ and the input event $i_0$ are empty. The first turn is initiated by the system. At $n = 1$ the iteration rule has the form
 
-$$c_1 \;=\; i_1 \,\Vert\, M(S \,\Vert\, i_1)$$
+$$c_1 = i_1 \Vert M(S \Vert i_1)$$
 
-$$o_1 \;=\; P(c_1)$$
+$$o_1 = P(c_1)$$
 
 ---
 
@@ -60,7 +60,7 @@ The problem is that a malicious or curious client can mutate $c_{n-1}$ before se
 
 Signing closes this gap without giving up statelessness on the server. The server keeps a secret $\sigma$ and stamps every $c_n$ it emits with a keyed message-authentication code
 
-$$s_n \;=\; H_\sigma(c_n).$$
+$$s_n = H_\sigma(c_n)$$
 
 The client transmits $c_n$ and $s_n$ side by side on the next request. The signature is metadata for the server, not input to the model: on the next turn the server verifies $H_\sigma(c_{n-1}) = s_{n-1}$ before invoking $M$, and if the check fails the turn is rejected. The client may read $c_n$ but cannot produce a valid $s_n$ for a $c_n$ it forged, because $\sigma$ never leaves the server.
 
